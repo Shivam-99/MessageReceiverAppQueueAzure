@@ -3,7 +3,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.ServiceBus;
-namespace MessagingAppReceiver
+namespace MEssagingAppReceiver
 {
     
 
@@ -47,11 +47,13 @@ namespace MessagingAppReceiver
 
         static async Task ProcessMessagesAsync(Message message, CancellationToken token)
         {
+            // Process the message
             Console.WriteLine($"Received message: SequenceNumber:{message.SystemProperties.SequenceNumber} Body:{Encoding.UTF8.GetString(message.Body)}");
 
             // Complete the message so that it is not received again.
             // This can be done only if the queueClient is created in ReceiveMode.PeekLock mode (which is default).
             await queueClient.CompleteAsync(message.SystemProperties.LockToken);
+
         }
 
         static Task ExceptionReceivedHandler(ExceptionReceivedEventArgs exceptionReceivedEventArgs)
